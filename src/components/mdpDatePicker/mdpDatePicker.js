@@ -44,7 +44,10 @@ function DatePickerCtrl($scope, $mdDialog, $mdMedia, $timeout, currentDate, opti
         	return index;
         },
         getLength: function() {
-            return this.numLoaded_ + 5;
+            return Math.min(
+                this.currentIndex_ + Math.floor(this.PAGE_SIZE / 2),
+                Math.abs(this.START - this.END) + 1
+            );
         },
         fetchMoreItems_: function(index) {
             if (this.toLoad_ < index) {
