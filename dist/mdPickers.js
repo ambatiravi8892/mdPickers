@@ -98,9 +98,9 @@ function DatePickerCtrl($scope, $mdDialog, $mdMedia, $timeout, currentDate, opti
         START: (self.minDate ? self.minDate.year() : 1900),
         END: (self.maxDate ? self.maxDate.year() : 0),
         getItemAtIndex: function(index) {
-        	if(this.numLoaded_ < index) {
+        	if(this.currentIndex_ < index) {
+                this.currentIndex_ = index;
                 this.fetchMoreItems_(index);
-                return null;
             }
         	return this.START + index;
         },
@@ -118,7 +118,6 @@ function DatePickerCtrl($scope, $mdDialog, $mdMedia, $timeout, currentDate, opti
 
         }
     };
-	console.log(this.yearItems);
 
     $scope.$mdMedia = $mdMedia;
     $scope.year = this.date.year();
@@ -132,7 +131,6 @@ function DatePickerCtrl($scope, $mdDialog, $mdMedia, $timeout, currentDate, opti
     
     this.showYear = function() { 
         self.yearTopIndex = (self.date.year() - self.yearItems.START) + Math.floor(self.yearItems.PAGE_SIZE / 2);
-        console.log(self.yearTopIndex);
         self.yearItems.currentIndex_ = (self.date.year() - self.yearItems.START) + 1;
         self.selectingYear = true;
     };
