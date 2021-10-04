@@ -30,21 +30,31 @@ function DatePickerCtrl($scope, $mdDialog, $mdMedia, $timeout, currentDate, opti
 	}
 	
 	this.yearItems = {
+        numLoaded_: 0,
+        toLoad_: 0,
         currentIndex_: 0,
         PAGE_SIZE: 5,
         START: (self.minDate ? self.minDate.year() : 1900),
         END: (self.maxDate ? self.maxDate.year() : 0),
         getItemAtIndex: function(index) {
-        	if(this.currentIndex_ < index)
-                this.currentIndex_ = index;
-        	
-        	return this.START + index;
+        	if(this.numLoaded_ < index) {
+                this.fetchMoreItems_(index);
+                return null;
+            }
+        	return index;
         },
         getLength: function() {
-            return Math.min(
-                this.currentIndex_ + Math.floor(this.PAGE_SIZE / 2),
-                Math.abs(this.START - this.END) + 1
-            );
+            return this.numLoaded_ + 5;
+        },
+        fetchMoreItems_: function(index) {
+            if (this.toLoad_ < index) {
+                this.toLoad_ += 20;
+                $timeout(angular.noop, 300).then(angular.bind(this, function() {
+                    this.numLoaded_ = this.toLoad_;
+                }));
+
+            }
+
         }
     };
 	console.log(this.yearItems);
@@ -135,7 +145,7 @@ module.provider("$mdpDatePicker", function() {
                                 '</div>' +  
                                 '<div>' + 
                                     '<div class="mdp-datepicker-select-year mdp-animation-zoom" layout="column" layout-align="center start" ng-if="datepicker.selectingYear">' +
-                                        '<md-virtual-repeat-container md-auto-shrink md-top-index="datepicker.yearTopIndex">' +
+                                        '<md-virtual-repeat-container md-top-index="datepicker.yearTopIndex">' +
                                             '<div flex md-virtual-repeat="item in datepicker.yearItems" md-on-demand class="repeated-year">' +
                                                 '<span class="md-button" ng-click="datepicker.selectYear(item)" md-ink-ripple ng-class="{ \'md-primary current\': item == year }">{{ item }}</span>' +
                                             '</div>' +
