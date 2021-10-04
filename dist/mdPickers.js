@@ -102,13 +102,10 @@ function DatePickerCtrl($scope, $mdDialog, $mdMedia, $timeout, currentDate, opti
                 this.fetchMoreItems_(index);
                 return null;
             }
-        	return index;
+        	return this.START + index;
         },
         getLength: function() {
-            return Math.min(
-                this.currentIndex_ + Math.floor(this.PAGE_SIZE / 2),
-                Math.abs(this.START - this.END) + 1
-            );
+            return this.numLoaded_ + 5;
         },
         fetchMoreItems_: function(index) {
             if (this.toLoad_ < index) {
