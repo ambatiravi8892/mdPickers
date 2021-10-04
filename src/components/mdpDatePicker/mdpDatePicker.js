@@ -136,7 +136,7 @@ module.provider("$mdpDatePicker", function() {
                                 '<div>' + 
                                     '<div class="mdp-datepicker-select-year mdp-animation-zoom" layout="column" layout-align="center start" ng-if="datepicker.selectingYear">' +
                                         '<md-virtual-repeat-container md-auto-shrink md-top-index="datepicker.yearTopIndex">' +
-                                            '<div style="height: 10000px" flex md-virtual-repeat="item in datepicker.yearItems" md-on-demand class="repeated-year">' +
+                                            '<div flex md-virtual-repeat="item in datepicker.yearItems" md-on-demand class="repeated-year">' +
                                                 '<span class="md-button" ng-click="datepicker.selectYear(item)" md-ink-ripple ng-class="{ \'md-primary current\': item == year }">{{ item }}</span>' +
                                             '</div>' +
                                         '</md-virtual-repeat-container>' +
