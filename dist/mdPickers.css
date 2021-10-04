@@ -134,6 +134,9 @@
 .mdp-datepicker-year:hover {
   opacity: 1;
 }
+.mdp-datepicker-select-year {
+  height: 232px;
+}
 .mdp-datepicker-select-year .repeated-year {
   text-align: center;
   height: 40px;
