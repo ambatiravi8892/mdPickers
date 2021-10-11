@@ -30,21 +30,30 @@ function DatePickerCtrl($scope, $mdDialog, $mdMedia, $timeout, currentDate, opti
 	}
 	
 	this.yearItems = {
+        numLoaded_: 0,
+        toLoad_: 0,
         currentIndex_: 0,
         PAGE_SIZE: 5,
         START: (self.minDate ? self.minDate.year() : 1900),
         END: (self.maxDate ? self.maxDate.year() : 0),
         getItemAtIndex: function(index) {
-        	if(this.currentIndex_ < index)
-                this.currentIndex_ = index;
+        	if(this.currentIndex_ < index) {
+                this.fetchMoreItems_(index);
+                return null;
+            }
 
         	return this.START + index;
         },
         getLength: function() {
-            return Math.min(
-                this.currentIndex_ + Math.floor(this.PAGE_SIZE / 2),
-                Math.abs(this.START - this.END) + 1
-            );
+            return this.numLoaded_ + 5;
+        },
+        fetchMoreItems_: function (index) {
+            if (this.toLoad_ < index) {
+                this.toLoad_ += 20;
+                $timeout(angular.noop, 300).then(angular.bind(this, function() {
+                    this.numLoaded_ = this.toLoad_;
+                }));
+            }
         }
     };
 
